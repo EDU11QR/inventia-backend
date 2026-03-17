@@ -1,0 +1,16 @@
+spring:
+  application:
+    name:
+  datasource:
+    url: jdbc:mysql://localhost:3306/inventia_db
+    username: root
+    password: mysql
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+server:
+  port: 8080

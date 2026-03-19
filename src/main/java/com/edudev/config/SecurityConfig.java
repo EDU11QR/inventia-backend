@@ -8,7 +8,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-
+    //capa de seguridad
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 

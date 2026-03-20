@@ -52,8 +52,10 @@ public class ProductController {
         return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
+                .description(product.getDescription())
                 .price(product.getPrice())
                 .stock(product.getStock())
+                .stockMinimum(product.getStockMinimum())
                 .category(product.getCategory())
                 .build();
     }

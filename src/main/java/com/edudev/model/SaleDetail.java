@@ -3,6 +3,8 @@ package com.edudev.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "sale_details")
 @Getter
@@ -22,6 +24,7 @@ public class SaleDetail {
 
     @ManyToOne
     @JoinColumn(name = "sale_id")
+    @JsonBackReference
     private Sale sale;
 
     @ManyToOne

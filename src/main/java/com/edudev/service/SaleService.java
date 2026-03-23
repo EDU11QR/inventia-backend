@@ -66,4 +66,8 @@ public class SaleService {
         return saleRepository.save(sale);
     }
 
+    public List<Sale> getAll() {
+        return saleRepository.findAll();
+    }
+
 }

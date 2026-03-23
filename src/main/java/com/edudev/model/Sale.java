@@ -1,5 +1,6 @@
 package com.edudev.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class Sale {
     private LocalDateTime date;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<SaleDetail> details;
 
 }

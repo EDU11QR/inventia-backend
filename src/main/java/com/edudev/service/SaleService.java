@@ -2,6 +2,7 @@ package com.edudev.service;
 
 import com.edudev.dto.SaleDetailRequest;
 import com.edudev.dto.SaleRequest;
+import com.edudev.dto.SalesByDayResponse;
 import com.edudev.model.Product;
 import com.edudev.model.Sale;
 import com.edudev.model.SaleDetail;
@@ -68,6 +69,10 @@ public class SaleService {
 
     public List<Sale> getAll() {
         return saleRepository.findAll();
+    }
+
+    public List<SalesByDayResponse> getSalesByDay() {
+        return saleRepository.getSalesByDay();
     }
 
 }

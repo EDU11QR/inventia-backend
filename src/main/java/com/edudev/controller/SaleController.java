@@ -1,6 +1,7 @@
 package com.edudev.controller;
 
 import com.edudev.dto.SaleRequest;
+import com.edudev.dto.SalesByDayResponse;
 import com.edudev.model.Sale;
 import com.edudev.service.SaleService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,11 @@ public class SaleController {
     @GetMapping
     public List<Sale> getAll() {
         return service.getAll();
+    }
+
+    @GetMapping("/by-day")
+    public List<SalesByDayResponse> getSalesByDay() {
+        return service.getSalesByDay();
     }
 
 }

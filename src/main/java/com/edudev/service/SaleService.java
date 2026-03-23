@@ -3,10 +3,12 @@ package com.edudev.service;
 import com.edudev.dto.SaleDetailRequest;
 import com.edudev.dto.SaleRequest;
 import com.edudev.dto.SalesByDayResponse;
+import com.edudev.dto.TopProductResponse;
 import com.edudev.model.Product;
 import com.edudev.model.Sale;
 import com.edudev.model.SaleDetail;
 import com.edudev.repository.ProductRepository;
+import com.edudev.repository.SaleDetailRepository;
 import com.edudev.repository.SaleRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class SaleService {
 
     private final SaleRepository saleRepository;
     private final ProductRepository productRepository;
+    private final SaleDetailRepository saleDetailRepository;
 
     @Transactional
     public Sale create(SaleRequest request) {
@@ -74,5 +77,10 @@ public class SaleService {
     public List<SalesByDayResponse> getSalesByDay() {
         return saleRepository.getSalesByDay();
     }
+
+    public  List<TopProductResponse> getTopProductResponses(){
+        return saleDetailRepository.getTopProducts();
+    }
+
 
 }

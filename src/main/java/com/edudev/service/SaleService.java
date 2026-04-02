@@ -14,9 +14,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static tools.jackson.databind.ext.javatime.util.DecimalUtils.toBigDecimal;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +33,7 @@ public class SaleService {
     @Transactional
     public Sale create(SaleRequest request) {
 
-        double total = 0;
+        BigDecimal total = BigDecimal.ZERO;
         List<SaleDetail> details = new ArrayList<>();
 
         for (SaleDetailRequest item : request.getItems()) {
@@ -42,7 +46,9 @@ public class SaleService {
                 throw new RuntimeException("Stock insuficiente para: " + product.getName());
             }
 
-            double subtotal = product.getPrice() * item.getQuantity();
+            BigDecimal price = toBigDecimal(product.getPrice());
+            BigDecimal quantity = BigDecimal.valueOf(item.getQuantity());
+            BigDecimal subtotal = price.multiply(quantity).setScale(2, RoundingMode.HALF_UP);
 
             // DESCUENTO DE STOCK
             product.setStock(product.getStock() - item.getQuantity());
@@ -54,13 +60,13 @@ public class SaleService {
                     .subtotal(subtotal)
                     .build();
 
-            total += subtotal;
+            total = total.add(subtotal);
             details.add(detail);
         }
 
         Sale sale = Sale.builder()
                 .date(LocalDateTime.now())
-                .total(total)
+                .total(total.setScale(2, RoundingMode.HALF_UP))
                 .build();
 
         // RELACIÓN
@@ -71,6 +77,7 @@ public class SaleService {
     }
 
     public List<Sale> getAll() {
+
         return saleRepository.findAll();
     }
 
@@ -80,6 +87,13 @@ public class SaleService {
 
     public  List<TopProductResponse> getTopProductResponses(){
         return saleDetailRepository.getTopProducts();
+    }
+
+    private BigDecimal toBigDecimal(Double value) {
+        if (value == null) {
+            return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        }
+        return BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP);
     }
 
 

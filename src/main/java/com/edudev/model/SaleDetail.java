@@ -5,6 +5,8 @@ import lombok.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "sale_details")
 @Getter
@@ -19,8 +21,12 @@ public class SaleDetail {
     private Long id;
 
     private Integer quantity;
-    private Double price;
-    private Double subtotal;
+
+    @Column(precision = 12, scale = 2)
+    private BigDecimal price;
+
+    @Column(precision = 12, scale = 2)
+    private BigDecimal subtotal;
 
     @ManyToOne
     @JoinColumn(name = "sale_id")

@@ -7,6 +7,8 @@ import com.edudev.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class ProductService {
     }
 
     public List<Product> getAll() {
+
         return repository.findAll();
     }
 
@@ -65,8 +68,8 @@ public class ProductService {
             throw new RuntimeException("Nombre obligatorio");
         }
 
-        if (request.getPrice() <= 0) {
-            throw new RuntimeException("Precio debe ser mayor a 0");
+        if (request.getPrice() == null) {
+            throw new RuntimeException("Precio obligatorio");
         }
 
         if (request.getStock() < 0) {

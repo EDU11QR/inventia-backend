@@ -46,7 +46,8 @@ public class SaleService {
                 throw new RuntimeException("Stock insuficiente para: " + product.getName());
             }
 
-            BigDecimal price = toBigDecimal(product.getPrice());
+            BigDecimal price = product.getPrice().setScale(2, RoundingMode.HALF_UP);
+           // BigDecimal price = toBigDecimal(product.getPrice());
             BigDecimal quantity = BigDecimal.valueOf(item.getQuantity());
             BigDecimal subtotal = price.multiply(quantity).setScale(2, RoundingMode.HALF_UP);
 

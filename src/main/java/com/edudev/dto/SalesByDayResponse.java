@@ -1,11 +1,13 @@
 package com.edudev.dto;
 
+import java.math.BigDecimal;
+
 public class SalesByDayResponse {
 
     private String day;
-    private Double total;
+    private BigDecimal total;
 
-    public SalesByDayResponse(String day, Double total) {
+    public SalesByDayResponse(String day, BigDecimal total) {
         this.day = day;
         this.total = total;
     }
@@ -14,7 +16,7 @@ public class SalesByDayResponse {
         return day;
     }
 
-    public Double getTotal() {
+    public BigDecimal getTotal() {
         return total;
     }
 }

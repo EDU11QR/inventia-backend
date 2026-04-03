@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -84,6 +85,34 @@ public class FiscalDocumentService {
                 .orElseThrow(() -> new RuntimeException("No existe comprobante para esta venta"));
 
         return mapToResponse(document);
+    }
+
+    public FiscalDocumentResponse findById(Long id) {
+        FiscalDocument document = fiscalDocumentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No existe comprobante con ese id"));
+
+        return mapToResponse(document);
+    }
+
+    public List<FiscalDocumentResponse> findAll(DocumentType documentType, FiscalDocumentStatus status) {
+        List<FiscalDocument> documents;
+
+        if (documentType != null && status != null) {
+            documents = fiscalDocumentRepository
+                    .finByDocumentTypeAndStatusOrderByIssuedAtDesc(documentType, status);
+        } else if (documentType != null) {
+            documents = fiscalDocumentRepository
+                    .finByDocumentTypeOrderByIssuedAtDesc(documentType);
+        } else if (status != null) {
+            documents = fiscalDocumentRepository
+                    .finByStatusOrderByIssuedAtDesc(status);
+        } else {
+            documents = fiscalDocumentRepository.finAllByOrderByIssuedAtDesc();
+        }
+
+        return documents.stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
     private void validateRequest(EmitFiscalDocumentRequest request) {

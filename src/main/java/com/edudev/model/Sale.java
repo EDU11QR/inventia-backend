@@ -26,6 +26,11 @@ public class Sale {
 
     private LocalDateTime date;
 
+    // relacion entre venta(sale) y cliente(customer)
+    @ManyToOne // relacion de muchos a uno
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<SaleDetail> details;

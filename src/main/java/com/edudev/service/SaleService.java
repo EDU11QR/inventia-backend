@@ -4,9 +4,11 @@ import com.edudev.dto.SaleDetailRequest;
 import com.edudev.dto.SaleRequest;
 import com.edudev.dto.SalesByDayResponse;
 import com.edudev.dto.TopProductResponse;
+import com.edudev.model.Customer;
 import com.edudev.model.Product;
 import com.edudev.model.Sale;
 import com.edudev.model.SaleDetail;
+import com.edudev.repository.CustomerRepository;
 import com.edudev.repository.ProductRepository;
 import com.edudev.repository.SaleDetailRepository;
 import com.edudev.repository.SaleRepository;
@@ -29,6 +31,8 @@ public class SaleService {
     private final SaleRepository saleRepository;
     private final ProductRepository productRepository;
     private final SaleDetailRepository saleDetailRepository;
+
+    private final CustomerRepository customerRepository;
 
     @Transactional
     public Sale create(SaleRequest request) {
@@ -65,9 +69,13 @@ public class SaleService {
             details.add(detail);
         }
 
+        Customer customer = customerRepository.findById(request.getCustomerId())
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
         Sale sale = Sale.builder()
                 .date(LocalDateTime.now())
                 .total(total.setScale(2, RoundingMode.HALF_UP))
+                .customer(customer)
                 .build();
 
         // RELACIÓN

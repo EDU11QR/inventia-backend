@@ -32,7 +32,7 @@ public class CustomerController {
     }
 
     // Buscar por Cliente por id
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<CustomerResponse> getById(@PathVariable Long id){
         return ResponseEntity.ok(customerService.getById(id));
     }

@@ -99,15 +99,15 @@ public class FiscalDocumentService {
 
         if (documentType != null && status != null) {
             documents = fiscalDocumentRepository
-                    .finByDocumentTypeAndStatusOrderByIssuedAtDesc(documentType, status);
+                    .findByDocumentTypeAndStatusOrderByIssuedAtDesc(documentType, status);
         } else if (documentType != null) {
             documents = fiscalDocumentRepository
-                    .finByDocumentTypeOrderByIssuedAtDesc(documentType);
+                    .findByDocumentTypeOrderByIssuedAtDesc(documentType);
         } else if (status != null) {
             documents = fiscalDocumentRepository
-                    .finByStatusOrderByIssuedAtDesc(status);
+                    .findByStatusOrderByIssuedAtDesc(status);
         } else {
-            documents = fiscalDocumentRepository.finAllByOrderByIssuedAtDesc();
+            documents = fiscalDocumentRepository.findAllByOrderByIssuedAtDesc();
         }
 
         return documents.stream()

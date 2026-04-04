@@ -14,11 +14,11 @@ public interface FiscalDocumentRepository extends JpaRepository<FiscalDocument, 
 
     // Agreamos metodos para buscar por tipo, buscar por estado y ordenar por fecha
 
-    List<FiscalDocument> finAllByOrderByIssuedAtDesc();
-    List<FiscalDocument> finByDocumentTypeOrderByIssuedAtDesc(DocumentType documentType);
-    List<FiscalDocument> finByStatusOrderByIssuedAtDesc(FiscalDocumentStatus status);
+    List<FiscalDocument> findAllByOrderByIssuedAtDesc();
+    List<FiscalDocument> findByDocumentTypeOrderByIssuedAtDesc(DocumentType documentType);
+    List<FiscalDocument> findByStatusOrderByIssuedAtDesc(FiscalDocumentStatus status);
 
-    List<FiscalDocument> finByDocumentTypeAndStatusOrderByIssuedAtDesc(
+    List<FiscalDocument> findByDocumentTypeAndStatusOrderByIssuedAtDesc(
             DocumentType documentType,
             FiscalDocumentStatus status
     );

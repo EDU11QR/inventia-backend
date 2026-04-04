@@ -35,7 +35,7 @@ public class FiscalDocumentController {
     }
 
     @GetMapping
-    public ResponseEntity<FiscalDocumentResponse> finById(@PathVariable Long id){
+    public ResponseEntity<FiscalDocumentResponse> findById(@PathVariable Long id){
         FiscalDocumentResponse response = fiscalDocumentService.findById(id);
         return ResponseEntity.ok(response);
     }

@@ -29,4 +29,10 @@ public class FiscalDocumentController {
         FiscalDocumentResponse response = fiscalDocumentService.findBySaleId(saleId);
         return ResponseEntity.ok(response);
     }
+
+    public ResponseEntity<FiscalDocumentResponse> finById(@PathVariable Long id){
+        FiscalDocumentResponse response = fiscalDocumentService.findById(id);
+        return ResponseEntity.ok(response);
+    }
+
 }// Final de la clase

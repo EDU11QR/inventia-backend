@@ -9,4 +9,7 @@ public class SaleRequest {
 
     private List<SaleDetailRequest> items;
 
+    // se permite asociar a un cliente en la solicitud de venta
+    private Long customerId;
+
 }

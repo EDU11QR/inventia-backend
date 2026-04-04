@@ -2,11 +2,15 @@ package com.edudev.fiscal.controller;
 
 import com.edudev.fiscal.dto.EmitFiscalDocumentRequest;
 import com.edudev.fiscal.dto.FiscalDocumentResponse;
+import com.edudev.fiscal.model.DocumentType;
+import com.edudev.fiscal.model.FiscalDocumentStatus;
 import com.edudev.fiscal.service.FiscalDocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/fiscal-documents")
@@ -30,9 +34,21 @@ public class FiscalDocumentController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping
     public ResponseEntity<FiscalDocumentResponse> finById(@PathVariable Long id){
         FiscalDocumentResponse response = fiscalDocumentService.findById(id);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping
+    public ResponseEntity<List<FiscalDocumentResponse>> findAll(
+            @RequestParam(required = false)DocumentType documentType,
+            @RequestParam(required = false)FiscalDocumentStatus status
+            ){
+        List<FiscalDocumentResponse> response = fiscalDocumentService.findAll(documentType,status);
+
+        return  ResponseEntity.ok(response);
+    }
+
 
 }// Final de la clase

@@ -3,6 +3,8 @@ package com.edudev.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "customers")
 @Getter
@@ -21,5 +23,6 @@ public class Customer {
     private String documentType;
     private String address;
     private String email;
+    private LocalDateTime createdAt;
 
 }

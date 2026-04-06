@@ -14,8 +14,5 @@ public class EmitFiscalDocumentRequest {
     private Long saleId;
     private DocumentType documentType;
 
-    private String customerDocumentType;
-    private String customerDocumentNumber;
-    private String customerName;
 
 }

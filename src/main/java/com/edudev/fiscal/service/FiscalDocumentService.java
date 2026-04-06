@@ -8,6 +8,7 @@ import com.edudev.fiscal.model.FiscalDocument;
 import com.edudev.fiscal.model.FiscalDocumentStatus;
 import com.edudev.fiscal.repository.DocumentSeriesRepository;
 import com.edudev.fiscal.repository.FiscalDocumentRepository;
+import com.edudev.model.Customer;
 import com.edudev.model.Sale;
 import com.edudev.repository.SaleRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,14 @@ public class FiscalDocumentService {
 
         Sale sale = saleRepository.findById(request.getSaleId())
                 .orElseThrow(() -> new RuntimeException("La venta no existe"));
+
+        if (sale.getCustomer() == null) {
+            throw new RuntimeException("La venta no tiene un cliente asociado");
+        }
+
+        Customer customer = sale.getCustomer();
+
+        validateCustomerForDocument(customer, request.getDocumentType());
 
         fiscalDocumentRepository.findBySaleId(sale.getId())
                 .ifPresent(doc -> {
@@ -65,9 +74,9 @@ public class FiscalDocumentService {
                 .subtotal(subtotal)
                 .igv(igv)
                 .total(total)
-                .customerDocumentType(request.getCustomerDocumentType())
-                .customerDocumentNumber(request.getCustomerDocumentNumber())
-                .customerName(request.getCustomerName())
+                .customerDocumentType(customer.getDocumentType())
+                .customerDocumentNumber(customer.getDocumentNumber())
+                .customerName(customer.getName())
                 .issuedAt(LocalDateTime.now())
                 .sale(sale)
                 .build();
@@ -123,24 +132,23 @@ public class FiscalDocumentService {
         if (request.getDocumentType() == null) {
             throw new RuntimeException("El tipo de documento es obligatorio");
         }
+    }
 
-        if (request.getDocumentType() == DocumentType.FACTURA) {
-            if (isBlank(request.getCustomerDocumentType())
-                    || isBlank(request.getCustomerDocumentNumber())
-                    || isBlank(request.getCustomerName())) {
-                throw new RuntimeException("Para FACTURA debes enviar los datos completos del cliente");
+    private void validateCustomerForDocument(Customer customer, DocumentType documentType) {
+        if (isBlank(customer.getName())) {
+            throw new RuntimeException("El cliente asociado a la venta no tiene nombre");
+        }
+
+        if (documentType == DocumentType.FACTURA) {
+            if (isBlank(customer.getDocumentType())
+                    || isBlank(customer.getDocumentNumber())) {
+                throw new RuntimeException("Para FACTURA el cliente debe tener tipo y número de documento");
             }
         }
 
-        if (request.getDocumentType() == DocumentType.BOLETA) {
-            if (isBlank(request.getCustomerName())) {
-                throw new RuntimeException("Para BOLETA debes enviar al menos el nombre del cliente");
-            }
-        }
-
-        if (request.getDocumentType() == DocumentType.NOTA_VENTA) {
-            if (isBlank(request.getCustomerName())) {
-                throw new RuntimeException("Para NOTA_VENTA debes enviar al menos el nombre del cliente");
+        if (documentType == DocumentType.BOLETA || documentType == DocumentType.NOTA_VENTA) {
+            if (isBlank(customer.getName())) {
+                throw new RuntimeException("Para este comprobante el cliente debe tener nombre");
             }
         }
     }

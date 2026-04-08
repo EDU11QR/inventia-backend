@@ -51,6 +51,18 @@ public class CustomerService {
         return mapToResponse(customer);
     }
 
+    public CustomerResponse getByDocumentNumber(String documentNumber) {
+        if (isBlank(documentNumber)) {
+            throw new RuntimeException("El número de documento es obligatorio");
+        }
+
+        Customer customer = customerRepository.findByDocumentNumber(documentNumber)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+        return mapToResponse(customer);
+    }
+
+
     private void validate(CustomerRequest request) {
         if (isBlank(request.getName())) {
             throw new RuntimeException("El nombre del cliente es obligatorio");

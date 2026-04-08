@@ -36,4 +36,12 @@ public class CustomerController {
     public ResponseEntity<CustomerResponse> getById(@PathVariable Long id){
         return ResponseEntity.ok(customerService.getById(id));
     }
+
+    @GetMapping("/document/{documentNumber}")
+    public ResponseEntity<CustomerResponse> getByDocumentNumber(
+            @PathVariable String documentNumber
+    ) {
+        return ResponseEntity.ok(customerService.getByDocumentNumber(documentNumber));
+    }
+
 }
